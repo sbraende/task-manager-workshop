@@ -1,6 +1,7 @@
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { database } from "./firebaseConfig";
 import toggleCompletion from "./toggleCompletion";
+import { openDeleteModal } from "./modal";
 
 const renderTasks = async (tasks = "all") => {
   const tableBody = document.querySelector(".table__body");
@@ -59,7 +60,6 @@ const renderTasks = async (tasks = "all") => {
     editTaskButton.innerHTML = "<i class='fa-solid fa-pen-to-square'></i>";
 
     // Add class name
-    task.isCompleted && tableRow.classList.add("task--completed"); // we use shortcircuting, goes from left to right seaching for the first false value
     tableRow.classList.add("table__body-row");
     taskNumber.classList.add("table__body-number");
     taskTitle.classList.add("table__body-title");
@@ -73,9 +73,14 @@ const renderTasks = async (tasks = "all") => {
     deleteTaskButton.classList.add("tools__button");
     editTaskButton.classList.add("tools__button");
 
+    // Event listeners
     crossTaskButton.addEventListener("click", () => {
-      toggleCompletion(doc.id, task.isCompleted);
+      toggleCompletion(doc.id, tableRow);
       tableRow.classList.toggle("task--completed");
+    });
+
+    deleteTaskButton.addEventListener("click", () => {
+      openDeleteModal(doc.id, task.title);
     });
   });
 };
