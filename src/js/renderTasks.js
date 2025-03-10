@@ -9,7 +9,7 @@ const renderTasks = async (tasks = "all") => {
   tableBody.innerHTML = "";
 
   let renderCollection;
-  if ((tasks = "all")) {
+  if (tasks === "all") {
     const taskCollection = collection(database, "tasks");
     const tasksQuery = query(taskCollection, orderBy("createdAt"));
     const tasksSnapshot = await getDocs(tasksQuery);
