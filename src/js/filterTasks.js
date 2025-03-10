@@ -15,7 +15,6 @@ const filterTasksByMonth = async (selectedMonth) => {
       const taskMonth = taskDate.getMonth() + 1;
       return selectedMonth === "all" || taskMonth === parseInt(selectedMonth);
     });
-    // console.log(selectedMonth);
     renderTasks(filteredTasks);
   } catch (error) {
     console.log(error, "Error filtering the collection");

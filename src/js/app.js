@@ -5,6 +5,7 @@ import filterTasksByMonth from "./filterTasks";
 import app, { database } from "./firebaseConfig";
 import { closeDeleteModal, closeModal, openModal } from "./modal";
 import renderTasks from "./renderTasks";
+import validateForm from "./validation";
 
 // Selectors
 const formModal = document.querySelector(".form-modal");
@@ -19,7 +20,7 @@ const prioritySelect = document.querySelector(".form__priority-select");
 const openChartButton = document.querySelector(".tools__button--chart");
 const filterSelect = document.querySelector(".tools__filter-month");
 const submitButton = document.querySelector(".form__submit-button");
-const formSubmissionFeedback = document.querySelector("form__submission-feedback");
+const formSubmissionFeedback = document.querySelector(".form__submission-feedback");
 
 // Event listeners
 document.addEventListener("DOMContentLoaded", () => {
@@ -31,6 +32,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
+  formSubmissionFeedback.classList.remove("form--invalid-input", "form--valid");
+  if (!validateForm()) {
+    formSubmissionFeedback.classList.add("form--invalid-input");
+    formSubmissionFeedback.textContent = "Please complete the form before submitting it";
+    setTimeout(() => {
+      formSubmissionFeedback.textContent = "";
+    }, 3000);
+    return;
+  }
+
   if (!appState.editState) {
     addTasks(
       titleInput.value,
@@ -42,8 +53,15 @@ form.addEventListener("submit", (e) => {
   } else {
     editTask(appState);
     appState.editState = null;
-    // renderTasks();
   }
+  renderTasks();
+  form.reset();
+  formSubmissionFeedback.classList.add("form--valid");
+  formSubmissionFeedback.textContent = "Task has been submitted succesfully";
+  setTimeout(() => {
+    formSubmissionFeedback.classList.remove("form--valid");
+    formSubmissionFeedback.textContent = "";
+  }, 3000);
 });
 
 filterSelect.addEventListener("change", (e) => {
