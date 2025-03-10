@@ -4,6 +4,7 @@ const deleteModal = document.querySelector(".delete-modal");
 const deleteModalText = document.querySelector(".delete-modal__text");
 const cancelDeleteButton = document.querySelector(".delete-modal__cancel-button");
 const confirmDeleteModalButton = document.querySelector(".delete-modal__confirm-button");
+const formModal = document.querySelector(".form-modal");
 
 let previousConfirmDeleteHandler = null;
 
@@ -42,4 +43,8 @@ const closeDeleteModal = () => {
   });
 };
 
-export { openModal, closeModal, openDeleteModal, closeDeleteModal };
+const openEditModal = () => {
+  formModal.classList.add("form-modal--display");
+};
+
+export { openModal, closeModal, openEditModal, openDeleteModal, closeDeleteModal };
