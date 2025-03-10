@@ -18,6 +18,19 @@ const renderTasks = async (tasks = "all") => {
     renderCollection = tasks;
   }
 
+  if (renderCollection.length === 0) {
+    const emptyCollectionRow = document.createElement("tr");
+    const emptyCollectionCell = document.createElement("td");
+
+    emptyCollectionCell.textContent = "No tasks to display";
+    tableBody.classList.add("table__body--empty");
+    tableBody.append(emptyCollectionRow);
+    emptyCollectionRow.append(emptyCollectionCell);
+    return;
+  } else {
+    tableBody.classList.remove("table__body--empty");
+  }
+
   renderCollection.forEach((doc, index) => {
     const task = doc.data(); // We need to use data method to get the data.
 
